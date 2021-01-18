@@ -1,0 +1,56 @@
+---
+- name: Cleanup
+  hosts: localhost
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
+  tasks:
+    - name: include the variable files that hold the cloned database information
+      include_vars:
+        dir: ./vars
+        extensions:
+          - yml
+          - yaml
+
+    - name: include the group_vars. Its where some of the db cloning information is kept
+      include_vars:
+        dir: ./group_vars/webservers
+        extensions:
+          - yml
+          - yaml
+
+    - name: are there cloned database to remove?
+      block:
+
+        - name: create a list of rds instances to remove
+          set_fact:
+            whmcs_clones: "{{ whmcs_credentials_patch | default ([]) | map(attribute='cloned_cluster_name') | list }}"
+            craft_clones: "{{ craft_credentials_patch | default ([]) | map(attribute='cloned_cluster_name') | list }}"
+
+        # TODO ideally we'd use the rds cluster fact to check if the expected clusters actually exist. This would prevent the script from spitting out errors
+        - name: remove rds instance
+          command: "./scripts/deletedbcluster.sh {{ item }} yes"
+          ignore_errors: true
+          loop: "{{ whmcs_clones + craft_clones }}"
+
+        - name: find
+          find:
+            paths: "./vars"
+            file_type: file
+            use_regex: true
+            patterns:
+              - "^{{ clone_var_file_whmcs }}\\.yml$"
+              - "^{{ clone_var_file_craft }}\\.yml$"
+          register: clone_var_files
+
+        - name: delete the temporary variable files
+          file:
+            path: "{{ item.path }}"
+            state: absent
+          loop: "{{ clone_var_files.files }}"
+          when:
+            - clone_var_files.matched > 0
+            - patched_whmcs_credentials is defined
+
+      when:
+        - craft_credentials_patch is defined
+        - whmcs_credentials_patch is defined

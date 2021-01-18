@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: webservers
+  gather_facts: true
+  tasks:
+    - name: Include the role you are developing
+      include_role: your_role_name

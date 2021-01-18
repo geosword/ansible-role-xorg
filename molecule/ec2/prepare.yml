@@ -1,0 +1,18 @@
+---
+- name: Prepare
+  hosts: webservers
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
+  tasks:
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal python-zipstream)
+      become: true
+      changed_when: false
+
+    - name: apt
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      become: true
+
+    # Run any pre-req roles here
