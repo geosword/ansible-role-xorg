@@ -1,0 +1,25 @@
+---
+dependency:
+  name: galaxy
+  # options:
+    # force: false
+driver:
+  name: ec2
+platforms:
+  - name: ec2-scenario-instance-${USER}
+    image: ${MOL_SCENARIO_AMI:-ami-083d24fb90054e5f0}
+    groups:
+      - all
+    instance_type: ${MOL_INSTANCE_SIZE:-t2.small}
+    region: us-east-1a
+    vpc_subnet_id: subnet-6183565f
+    # name of a security group
+    group: remote-workers
+    instance_tags:
+      Name: molecule-${USER}
+      environment: test
+      provisioner: molecule
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

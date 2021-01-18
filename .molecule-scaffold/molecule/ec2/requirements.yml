@@ -1,0 +1,5 @@
+---
+#- src: git@bitbucket.org:sectigowebdevelopment/ar_retail_base.git
+#  scm: git
+#  version: master
+#- src: geerlingguy.docker
