@@ -1,8 +1,34 @@
 ---
-# A place to prep your container / vm for something your role will rely on but not actually do. You might consider baking it into your container / vm image if its not sensitive
 - hosts: all
   gather_facts: true
+  become: true
   tasks:
+
+    - name: "check for python"
+      raw: "test -e /usr/bin/python || /usr/bin/pacman -Sy --noconfirm python python-pip"
+      changed_when: false
+
+    - name: update everything
+      command: /usr/bin/pacman -Syu --noconfirm
+
+    - name: install some things which arent in the container but are in the tar image
+      raw: /usr/bin/pacman -S --noconfirm vim base-devel
+
+    - name: some things that need doing in virtualbox, before we start configuring xorg
+      include: virtualboxdrivers.yml
+
+    - name: "Include the pre-req roles"
+      include_role:
+        apply:
+          become: true
+        name: "{{ preprole }}"
+      loop_control:
+        loop_var: preprole
+      loop:
+        - "grog.user"
+        - "grog.authorized-key"
+        - "geosword.workstation-base"
+
 #        Helpful environment variables
 #        PY_COLORS=1|0
 #        ANSIBLE_FORCE_COLOR=1|0

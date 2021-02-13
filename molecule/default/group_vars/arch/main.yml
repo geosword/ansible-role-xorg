@@ -1,0 +1,5 @@
+---
+wsbase_additional_packages:
+  - openssh
+wsbase_pip_packages:
+  - virtualenvwrapper

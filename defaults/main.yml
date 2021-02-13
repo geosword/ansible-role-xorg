@@ -1,2 +1,6 @@
 ---
 # defaults file for ansible-role-xorg
+xorg_package_list:
+  - xorg-server
+  - xorg-xinit
+xorg_user: dylanh

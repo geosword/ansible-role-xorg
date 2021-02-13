@@ -1,1 +1,1 @@
-./molecule/default/group_vars/all/
+./group_vars/arch

@@ -1,0 +1,7 @@
+---
+xorg_additional_packages:
+  - wmctrl
+  - xclip
+  - xdotool
+  - xsel
+  - xorg-xinit

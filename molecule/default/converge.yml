@@ -8,4 +8,4 @@
       include_role:
         apply:
           become: true
-        name: ${CWD}"
+        name: "{{ lookup('env','PWD') | basename }}"

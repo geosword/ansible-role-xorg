@@ -1,0 +1,19 @@
+- name: remove virtualbox-guest-utils-nox - because it has no xorg support
+  package:
+    name: virtualbox-guest-utils-nox
+    state: absent
+  register: removenox
+
+- name: install virtuabox-guest-utils
+  package:
+    name: virtualbox-guest-utils
+    state: present
+
+- name: reboot if we had to remove guest-utils-nox and wait for it to come backup
+  reboot:
+  when:
+    - removenox.changed
+
+- name: modprobe the vboxvideo drivers
+  modprobe:
+    name: vboxvideo

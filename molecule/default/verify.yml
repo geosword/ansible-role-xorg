@@ -2,21 +2,3 @@
 - name: Verify
   hosts: all
   tasks:
-
-    # NOTE that verify.yml does not inherit values from your playbook in anyway, they are seperate playbooks and run seperately.
-
-    - name: define packages, files, directories and other stuff you want to check lots of
-      set_fact:
-        required_certs:
-          - blog.positivessl.com
-          - comodoca.com
-        required_redirects:
-          - {scheme: 'http', domain: 'avs.sectigo.com', status: 301, location: 'https://avs.sectigo.com'}
-
-    - name: include the standard verifier. This is arguably somewhat redundant now that all verification tasks are in one file
-      include_tasks: ../default/tasks/verify_root.yml
-
-  # NOTE: if you have a task you wish to exclude from the molecule idempotence check, you can either remove the idempotence phase entirely in molecule.yml
-  # or you can exclude a specific task by adding the tag ```molecule-idempotence-notest``` to the task
-
-  # Add role specific tests here

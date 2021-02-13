@@ -1,8 +1,11 @@
 ---
-# roles your role requires to run or must be run in conjuction with
-#- src: geerlingguy.nginx
-#- src: geerlingguy.php
-#- src: git@bitbucket.org:sectigowebdevelopment/ansible-role-nginx.git
-#  scm: git
-#  version: master
-#  name: some-overriden-name
+- src: grog.user
+- src: grog.authorized-key
+- src: git@github.com:geosword/ansible-role-ws-base.git
+  scm: git
+  version: master
+  name: geosword.workstation-base
+- src: git@github.com:geosword/ansible-role-nvidia.git
+  scm: git
+  version: master
+  name: geosword.nvidia

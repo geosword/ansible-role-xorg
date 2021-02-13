@@ -22,7 +22,9 @@ cookiecutter==1.7.2
 cryptography==3.3.1
 distlib==0.3.1
 distro==1.5.0
+dnspython==2.1.0
 docker==4.4.1
+enrich==1.2.6
 fasteners==0.16
 filelock==3.0.12
 identify==1.5.13
@@ -31,9 +33,9 @@ Jinja2==2.11.2
 jinja2-time==0.2.0
 jmespath==0.10.0
 MarkupSafe==1.1.1
-molecule==3.0.8
+molecule==3.2.3
 molecule-docker==0.2.4
-molecule-ec2==0.2
+molecule-vagrant==0.6.1
 nodeenv==1.5.0
 packaging==20.8
 paramiko==2.7.2
@@ -50,6 +52,7 @@ pyparsing==2.4.7
 python-dateutil==2.8.1
 python-gilt==1.2.3
 python-slugify==4.0.1
+python-vagrant==0.5.15
 PyYAML==5.3.1
 requests==2.25.1
 rich==9.8.2
@@ -59,6 +62,7 @@ selinux==0.2.1
 sh==1.13.1
 shellingham==1.3.2
 six==1.15.0
+subprocess-tee==0.2.0
 tabulate==0.8.7
 text-unidecode==1.3
 toml==0.10.2

@@ -1,2 +1,37 @@
 ---
 # tasks file for ansible-role-xorg
+- name: install xorg packages
+  community.general.pacman:
+    name: "{{ xorg_package_list + xorg_additional_packages }}"
+    state: present
+
+# TODO check if a specific xorg config has been specified and only auto configure & copy if it has NOT
+# TODO Xorg sucks and HAS to write the config to the current users homedir, we need to check which user is
+# is running and account for that in the path
+
+- name: Set the X11 config file to something simple and default
+  ansible.builtin.shell: "/usr/bin/Xorg :0 -configure"
+  args:
+    chdir: /var/tmp
+    creates: "/root/xorg.conf.new"
+
+- name: copy the vanilla xorg.conf to the right place
+  copy:
+    src: "/root/xorg.conf.new"
+    dest: /etc/X11/xorg.conf
+    remote_src: yes
+
+- name: make the xorg configuration editable by users in the wheel group (me)
+  file:
+    path: /etc/X11
+    group: wheel
+    mode: '0775'
+
+- name: xinitrc
+  copy:
+    dest: "/home/{{ xorg_user }}/.xinitrc"
+    content: |
+      exec /usr/bin/startplasma-x11
+    owner: "{{ xorg_user }}"
+    group: "{{ xorg_user }}"
+    mode: '0744'

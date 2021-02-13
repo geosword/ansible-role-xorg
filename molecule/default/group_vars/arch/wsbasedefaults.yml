@@ -1,0 +1,39 @@
+---
+wsbase_user_name: dylanh
+wsbase_user_dir: "/home/{{ wsbase_user_name }}"
+wsbase_pacman_mirror_list_url: "https://www.archlinux.org/mirrorlist/?country=GB&country=US&protocol=http&protocol=https&ip_version=4&use_mirror_status=on"
+wsbase_pacman_gpg_conf_template: pacman_gpg_conf.j2
+# TODO this will fail if run in GH actions
+wsbase_pacman_key_servers: "{{ lookup('community.general.dig', '_pgpkey-http._tcp.eu.pool.sks-keyservers.net', 'qtype=SRV', wantlist=True) }}"
+wsbase_pacman_key_refresh_retries: 9
+wsbase_pacman_key_refresh_delay: 5
+wsbase_package_list:
+  - base-devel
+  - bind-tools
+  - cronie
+  - fakeroot
+  - git
+  - grub
+  - hwinfo
+  - ipcalc
+  - icu
+  - jq
+  - keychain
+  - neovim
+  - net-tools
+  - pwgen
+  - python-pip
+  - rdiff-backup
+  - rsync
+  - subversion
+  - sudo
+  - tcpdump
+  - traceroute
+  - unzip
+  - wget
+  - whois
+  - zsh
+wsbase_additional_packages: []
+wsbase_pip_packages: []
+wsbase_post_install_notfiers:
+  - "enable cronie"
